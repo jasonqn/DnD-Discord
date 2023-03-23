@@ -12,6 +12,7 @@ public class DiscordBot {
         JDA api = JDABuilder.createDefault("")
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(new MyListener())
+
                 .build();
     }
 }
