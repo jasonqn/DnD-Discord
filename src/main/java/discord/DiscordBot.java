@@ -15,5 +15,6 @@ public class DiscordBot {
                 .addEventListeners(new MyListener())
                 .addEventListeners(new UserLogger())
                 .build();
+
     }
 }
