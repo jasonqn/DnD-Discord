@@ -29,6 +29,17 @@ public class DiscordDatabase {
         }
     }
 
+    public void insertUserID(long userID) {
+        String query = "INSERT INTO users (user_id) VALUES (?)";
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setLong(1, userID);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 
 }

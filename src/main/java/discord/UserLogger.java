@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+import java.sql.PreparedStatement;
+
 public class UserLogger extends ListenerAdapter {
 
     private User user;
@@ -21,9 +23,6 @@ public class UserLogger extends ListenerAdapter {
     }
 
     private User getUser(JDA api) {
-        if(this.user == null) {
-            return null;
-        }
 
         // Acquire a reference to the User instance though the id
         User newUser = api.getUserById(this.user.getIdLong());
@@ -52,13 +51,13 @@ public class UserLogger extends ListenerAdapter {
     {
         JDA api = event.getJDA();
         User user = getUser(api); // use getter to refresh user automatically on access
+        long userID = user.getIdLong();
 
-        assert user != null;
-        user.openPrivateChannel().queue((channel) ->
-        {
-            // Send a private message to the user
-            channel.sendMessageFormat("I have joined a new guild: **%s**", event.getGuild().getName()).queue();
-        });
+        DiscordDatabase database = new DiscordDatabase("jdbc:mysql://localhost:3306/discord-dnd", "root", "password");
+        database.insertUserID(userID);
+        System.out.println(userID);
+
+
     }
 
 
